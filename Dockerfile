@@ -37,7 +37,7 @@ RUN \
   && apk del --purge \
     build-dependencies \
   && rm -rf \
-    	/tmp/*
+    /tmp/*
       
 # add local files
 COPY root/ /
