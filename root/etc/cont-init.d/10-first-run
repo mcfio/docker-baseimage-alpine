@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv bash
+
+# Setup user/group ids
+if [ ! -z "${PUID}" ]; then
+  if [ ! "$(id -u mcf)" -eq "${PUID}" ]; then
+     #usermod likes to chown the home directory, so create a new one and use that
+     if [ ! "${PUID}" -eq 0 ]; then
+       mkdir /tmp/temphome
+       usermod -d /tmp/temphome mcf
+     fi
+        
+     # Change the UID
+     usermod -o -u "${PUID}" mcf
+        
+     # Cleanup the temp home dir
+     if [ ! "${PUID}" -eq 0 ]; then
+       usermod -d /config mcf
+       rm -Rf /tmp/temphome
+     fi
+   fi
+fi
+
+if [ ! -z "${PGID}" ]; then
+  if [ ! "$(id -g mcf)" -eq "${PGID}" ]; then
+    groupmod -o -g "${PGID}" mcf
+  fi
+fi
+
+chown mcf:mcf /app
+chown mcf:mcf /config
+chown mcf:mcf /defaults
