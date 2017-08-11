@@ -24,8 +24,7 @@ RUN \
   && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
   
   # Create mcf user
-  && groupmod -g 1000 users \
-  && useradd -U -d /config -s /bin/false mcf \
+  && useradd -u 1000 -U -d /config -s /bin/false mcf \
   && usermod -G users mcf \
   
   # Setup directories
